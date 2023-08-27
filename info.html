@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue - Infos</title>
+</head>
+
+<body>
+
+  1) Yukleme -
+
+  npm create vue@latest
+
+  Burada ozu sorusacaqki typescript olsun yoxsa yox.Routingi true sec ki defolt olaraq
+  versin.
+
+  Yuklendikden sonra ise bele:
+
+  npm install
+  npm run format
+  npm run dev
+
+  Hele ki en son verisya 3.2 dir
+
+  npm run dev ile ise salinir ve http://localhost:5173 portunda acir.
+
+  Link: https://vuejs.org/guide/quick-start.html#creating-a-vue-application
+
+  2)
+  <RouterView /> - app da yer alir, children kimidir, sehifede gelenler burada gelir,
+  Layout sistemi ise app da qurulur.Kenarda da qurmaq olar.
+
+  3) Routing ve sehifeler -
+
+  src/router/index.ts aciriq sehifeler ucun komponentler ve onlar ucun sehife adlari
+  burada yazilir.Sehifeler ise src/views qovluqunda component kimi yer alir.
+  Adi komponentler ise src/components qovluqundadir.
+
+  Slug sehifesi yaratma:
+
+  {
+  path: '/examples/:slug',
+  name: 'example',
+  component: ExampleSlugView
+  },
+
+  Sehifede slug alma:
+
+  <script>
+
+    export default {
+      data() {
+        return {
+          content: ''
+        };
+      },
+      created() {
+        // You can fetch data based on the slug parameter here
+        const slug = this.$route.params.slug;
+        // Example: Fetch content using an API
+        // Replace this with your actual data fetching logic
+        this.fetchContent(slug);
+      },
+      methods: {
+        fetchContent(slug) {
+          // Simulate fetching content based on the slug
+          // Replace this with your actual data fetching logic
+          this.content = `Content for slug: ${slug}`;
+        }
+      }
+    };
+  </script>
+
+  data - komponentin propertyleri ucundur, defolt olaraq deyer de vere bilirsen burada
+
+  created - lifecycle hook sayilir.Komponent instance yarandiqda ve DOMA mount olmazdan
+  qabaq ise dusur.Adeten data cekmek ve bu formada olan seyler ucun istifade olunur.
+
+  methods - buraya komponent ucun olan metodlarimiz yazilir.
+
+  Burada js html icerisinde iki moterize ile yazilir:
+
+  <p>{{ content }}</p>
+
+  4) Component - HTML template, style ise style tag arasinda yazilir.
+
+  style arasinda yazilan stil butun sehifeye tesir edir, meselen .example classi olan
+  basqalari da bunu qebul edecek.Bunu qarsini almaq ucun scoped tagi add etmek lazimdir
+  buraya.
+
+  <template>
+
+    <div class="example">
+      <h1>This is an example page</h1>
+    </div>
+
+  </template>
+
+  <style scoped>
+    .example {
+      display: block !important;
+      background-color: red;
+      color: white;
+    }
+  </style>
+
+  defineProps - burada komponentin qebul edeceyin propertyler yazilir, obyekt formasinda.
+
+  <script setup lang="ts">
+    defineProps < {
+      name: string,
+      description: string;
+    } > ()
+  </script>
+
+  5) v-for dongusu:
+
+  <ul>
+    <Card v-for="(item, index) in items" :key="index" :name="item.name" :description="item.description" />
+  </ul>
+
+  6) Melumatlar -
+
+  https://vuejs.org/guide/essentials/template-syntax.html#text-interpolation
+
+  1 - text yazdirma:
+
+  Adi text kimi (bu moterizeye Mustaches deyilir)
+  <p>Using text interpolation: {{ rawHtml }}</p>
+
+  HTML kimi
+  <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+
+  2 - Attributa deyer vermek - burada Mustaches istifade ede bilmerik
+
+  <div v-bind:id="dynamicId"></div>
+
+  v-bind qisa formasi
+  <div :id="dynamicId"></div>
+
+  Butun attributlari obyekt kimi vere bilersen
+
+  <script>
+
+    const objectOfAttrs = {
+      id: 'container',
+      class: 'wrapper'
+    }
+
+  </script>
+
+  <div v-bind="objectOfAttrs"></div>
+
+  3 - Directives
+
+  v- ile baslayan attributlar directives sayilir
+
+  v-if false qoysan element dom dan silinecek
+
+  <p v-if="seen">Now you see me</p>
+
+  on click ve qisa yolu v-on eventler ucundur
+  <a v-on:click="doSomething"> ... </a>
+
+  <a @click="doSomething"> ... </a>
+
+  4 - Modifiers
+
+  prevent default etmeyin qisa yolu
+
+  <form @submit.prevent="onSubmit">...</form>
+
+  https://vuejs.org/guide/essentials/template-syntax.html#directives
+
+
+  7) Declaring Reactive State -
+
+  ref() - reactive stateler yaratmaq ucun tovsiye olunan bir yoldur.Valueni arqument
+  olaraq goturur ve onu obj.value kimi qaytarir.
+
+  <script>
+
+    import { ref } from 'vue'
+
+    const count = ref(0)
+
+    console.log(count) // { value: 0 }
+    console.log(count.value) // 0
+
+    count.value++
+    console.log(count.value) // 1
+
+  </script>
+
+  refleri setup icerisinde yaratmaq lazimdir
+
+  <script>
+
+    import { ref } from 'vue'
+
+    export default {
+      // `setup` is a special hook dedicated for the Composition API.
+      setup() {
+        const count = ref(0)
+
+        // expose the ref to the template
+        return {
+          count
+        }
+      }
+    }
+
+  </script>
+
+  setupu yuxari da yaza bilersen
+
+  <script setup>
+    import { ref } from 'vue'
+
+    const count = ref(0)
+
+    function increment() {
+      count.value++
+    }
+  </script>
+
+
+  - diger bir yolu ise reactive istifade etmekdir - bu obyektin ozunu duzeldir ele daha
+  value icerisinde vermir.Reactive yalniz obyekt qebul edir, ref ise hamisini
+
+  <script>
+    import { reactive } from 'vue'
+    const state = reactive({ count: 0 })
+  </script>
+
+  <button @click="state.count++">
+    {{ state.count }}
+  </button>
+
+  Reactive state o demekdir ki, bu data deyisdikde sehifede lazim olan yer update olur.
+
+  Composition API - Vue 3 ile gelib ve Options API ye alternativdir.Options API Vue 2 ye
+  aiddir.
+
+  Options API
+
+  <template>
+    <div>{{ message }}</div>
+  </template>
+
+  <script>
+    export default {
+      data() {
+        return {
+          message: 'Hello, Vue!'
+        };
+      }
+    };
+  </script>
+
+  Composition Api
+
+  <template>
+    <div>{{ message }}</div>
+  </template>
+
+  <script setup>
+    import { ref } from 'vue';
+
+    const message = ref('Hello, Vue!');
+  </script>
+
+  Composition Api daha rahatdir ve ozellikleri var
+
+  1 - Modularization
+  2 - Reactivity Logic
+  3 - Better TypeScript Support
+  4 - Code Organization
+
+  7) Computed Properties -
+
+  Link: https://vuejs.org/guide/essentials/computed.html#basic-example
+
+  8) Lifecycle Hooks -
+
+  onMounted - useEffect kimi
+
+  <script setup>
+
+    import { onMounted } from 'vue'
+
+    onMounted(() => {
+      console.log(`the component is now mounted.`)
+    })
+
+  </script>
+
+  onUpdated() - update olduqda, meselen her hansi bir state deyisse.useEffect dependency
+  deyisen kimi.
+
+  <script setup>
+    import { ref, onUpdated } from 'vue'
+
+    const count = ref(0)
+
+    onUpdated(() => {
+      // text content should be the same as current `count.value`
+      console.log(document.getElementById('count').textContent)
+    })
+  </script>
+
+  onUnmounted() - komponent silinende - useEffect return kimi
+
+  <script setup>
+    import { onMounted, onUnmounted } from 'vue'
+
+    let intervalId
+    onMounted(() => {
+      intervalId = setInterval(() => {
+        // ...
+      })
+    })
+
+    onUnmounted(() => clearInterval(intervalId))
+  </script>
+
+  onBeforeMount() - mount olmazdan qabaq isleyir server-sdie terefde calismir.
+
+  onBeforeUpdate() - updateden once bas verir.
+
+  onBeforeUnmount() - unmountdan once bas verir.
+
+  onErrorCaptured() - error gorulduyu zaman calisir.Error bunlardan ireli gele biler.
+
+  Component renders
+  Event handlers
+  Lifecycle hooks
+  setup() function
+  Watchers
+  Custom directive hooks
+  Transition hooks
+
+  Link: https://vuejs.org/guide/essentials/lifecycle.html
+
+  Link: https://vuejs.org/api/composition-api-lifecycle.html
+
+  <!-- https://vuejs.org/guide/essentials/lifecycle.html -->
+
+
+
+
+
+
+
+
+
+  Link: https://vuejs.org/guide/essentials/reactivity-fundamentals.html#why-refs
+
+
+  8) Computed Properties - reactda ki useMemo kimidir, lazimsiz renderlerden qacmaq ucun.
+
+  Asagida olan computedValue ve publishedBooksMessage artiq statelerden asilidir, yeni her renderde
+  yeniden yaranmayacaq ve yalniz aid oldugu state deyisdiyi zaman yeniden yaranacaq.Bu memoization
+  deyil computed properties ve yaxud Computed Caching adlanir, amm mentiqi eynidir.Bunu hemcinin
+  watch ile de etmek olur Vue de.Bunlar ozleri hansi reactive stateye aid olduqlarini avtomatik
+  bilirler ve yalniz onun deyeri deyisdikde yeniden isleyirler, bele ise cashed olunmus
+  deyer istifade edirler.Uzun kalkulyatorlar da bu cox faydalidir.
+
+  <script setup lang="ts">
+
+    import Card from '../components/cards/Card.vue'
+
+    import { ref } from 'vue';
+
+    const count = ref(0)
+
+    function increment() {
+      count.value++
+    }
+
+    function decrease() {
+      count.value--
+    }
+
+    import { reactive, computed } from 'vue'
+
+    const computedValue = computed(() => count.value * 2);
+
+    const state = reactive({ count: 0 })
+
+    const author = reactive({
+      name: 'John Doe',
+      books: [
+        'Vue 2 - Advanced Guide',
+        'Vue 3 - Basic Guide',
+        'Vue 4 - The Mystery'
+      ]
+    })
+
+    const publishedBooksMessage = computed(() => {
+      return author.books.length > 0 ? 'Yes' : 'No'
+    })
+
+  </script>
+
+  Yuxaridakini bele bir funksiya ile de ede bilerdik lakin her render zamani
+  bu yeniden niye calissin ki ? Netice eyni olur, sadece artiq rendere ehtiyac yoxdur.
+
+  <script>
+    function calculateBooksMessage() {
+      return author.books.length > 0 ? 'Yes' : 'No'
+    }
+  </script>
+
+  Link: https://vuejs.org/guide/essentials/computed.html#basic-example
+
+  9) Watchers - Mentiqi computed ile eyndir (amma bu meoization etmir, update olduqda is gormek
+  ucundur), lakin bezen biz stateni deyisdikde side effekler
+  etmeyimize ehtiyac olur, meselen statenin bir hissesinin deyisilmesi kimi.
+
+  Computed ile esas ferqi odur ki, computed read-only sayilir ve statenin ozunu deyise bilmir,
+  watch ise deyise bilir.Watch sanki update gozleyib, stateni updateye uygun deyisir ve yeno ve kohne
+  stateni parametr kimi alir.
+
+  Burada bir statenin deyismesinden asili olaraq mueyyen side effekleri istifade ede bilirk,
+  eynile reactda useEffecte stateni dependency vermek kimi.
+
+  Burada count her defe deyisdikde, doubleCount da onun deyisen deyerine gore deyer verecek.
+  newCount parametri countun yeni deyeridir.oldCount ise kohne deyeri verir.Avtomatik verilen
+  parametrlerdir.Computed yanliz deyer qaytarir.
+
+  <script>
+    const count = ref(0);
+    const doubleCount = ref(0);
+
+    watch(count, (newCount, oldCount) => {
+      doubleCount.value = newCount * 2;
+    });
+
+
+  </script>
+
+  Watch lazy davranir, yeni state deyismemis icerisinde verdiklerimiz hesablanmir.Amma
+  ele bir hal ola biler ki state deyismemis initial olaraq da hesablayib gostermesini isteyerik,
+  bu halda inmediate true etmeliyik.
+
+  Asagidaki halda doubleCount sehife acilan kimi 0 gelmeyecek, derhal stateye vurub hesablayib
+  bize verecek, state hele deyismemis initial olaraq.Eger true qoymasa idik, ilk basda 0 verecekdi,
+  sonra state deyisende deyer verecekdi.
+
+  <script>
+    const doubleCount = ref(0);
+
+    watch(count, (newCount, oldCount) => {
+      doubleCount.value = newCount * 2;
+    }, { immediate: true });
+  </script>
+
+  watchEffect - her ikisini evezleyir, bu halda hem dependency vermeye ehtiyac yoxdur, hem de
+  inmediateL true;Computed propertiesler kimi dependency i avtomatik olaraq goturur ve lazy islemir.
+  Aralarindaki ferq boyuk deyil.Feriq yalniz qeyd olunanlardadir, derhal icra olmasi ve
+  dependency vermeyin lazim olmamasi.
+
+  Bunlar hamisi Watchers sayilir.
+
+  Bunlarin funksiya hissesi callback adlanir.
+
+  watch vs. watchEffect​
+  watch and watchEffect both allow us to reactively perform side effects. Their main difference is the way they track
+  their reactive dependencies:
+
+  watch only tracks the explicitly watched source. It won't track anything accessed inside the callback. In addition,
+  the callback only triggers when the source has actually changed. watch separates dependency tracking from the side
+  effect, giving us more precise control over when the callback should fire.
+
+  watchEffect, on the other hand, combines dependency tracking and side effect into one phase. It automatically tracks
+  every reactive property accessed during its synchronous execution. This is more convenient and typically results in
+  terser code, but makes its reactive dependencies less explicit.
+
+  <script>
+    watchEffect(async () => {
+      doubleCount.value = count.value * 2;
+    })
+  </script>
+
+  unwatch() - her ikisini dayandirmaq ucun istifade olunur.
+
+  Bunlar hook deyil, watchers sayilir.Data da olan deyisikliklere reaksiya verib onlar uzerinde
+  is gormek ucundurler.
+
+  https://vuejs.org/guide/essentials/watchers.html
+
+  10) <input v-model="question" /> - v-model directive sayilir.
+
+  Bu inputa property verir value olaraq ve input valuesi here defe deyisdikde gedib hemin reactive
+  stateni deyisdirir.
+
+  11) Class and style bindings
+
+  elave sertlere gore :class (v-bind:class qisa formasidir) obyeti oture bilerik, normal
+  classlari da class icerisinde yaza bilerik.
+
+  <script>
+    const isActive = ref(true)
+    const hasError = ref(false)
+  </script>
+
+  <div class="static" :class="{ active: isActive, 'text-danger': hasError }"></div>
+
+  Bu fromada render olacaq
+
+  <div class="static active"></div>
+
+
+  Hetta kenarda bir obyekt kimi saxlayib da vere bilerik:
+
+  <script>
+    const classObject = reactive({
+      active: true,
+      'text-danger': false
+    })
+  </script>
+
+  <div :class="classObject"></div>
+
+  classi toggle etmek:
+
+  <div :class="[isActive ? activeClass : '', errorClass]"></div>
+
+  Parentden class otursen onu bele ($attrs.class) alirsan, daha ayrica className acmaga ehtiyac yoxdur.
+
+  <p :class="$attrs.class">Hi!</p>
+
+  inline style yazmaq olur:
+
+  <div :style="{ color: activeColor, fontSize: fontSize + 'px' }"></div>
+
+  camelCase ile yazilmasi meslehetdir keylerin, amma string formasinda da yazmaq olar:
+
+  <div :style="{ 'font-size': fontSize + 'px' }"></div>
+
+  styleni obyekt kimi, hemde icinde obyeltler olan array kimi de ver bilersen
+
+  iki obyekt -
+  <div :style="[baseStyles, overridingStyles]"></div>
+
+  bir obyekt -
+  <div :style="styleObject"></div>
+
+  Link: https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes
+
+  12) Conditional Rendering:
+
+  v-if - directive sayilir, true qayitsa render edir, qayitmasa etmir.Directiveler
+  xususi attributlar sayilir ve HTML elementlere xususi behavior lar verir.
+
+  v-else ise if ile islenir if false qayitsa v-else de olan gorunur
+
+  <h1 v-if="awesome">Vue is awesome!</h1>
+  <h1 v-else>Oh no 😢</h1>
+
+  v-else-if - ise if den sonraki sertdir
+
+  <div v-if="type === 'A'">
+    A
+  </div>
+
+  <div v-else-if="type === 'B'">
+    B
+  </div>
+
+  <div v-else-if="type === 'C'">
+    C
+  </div>
+
+  <div v-else>
+    Not A/B/C
+  </div>
+
+  w-show ile de elementi gosterib gizlemek olur, lakin bu element gizlense de DOM da olur,
+  cunki yalniz display none olur, v-if de ise umumiyyetle render olmur.
+
+  <h1 v-show="ok">Hello!</h1>
+
+  Link: https://vuejs.org/guide/essentials/conditional.html
+
+  13) List Rendering -
+
+  v-for reactda ki map kimidir.Amma bu obyekti de donguye sala bilir.
+
+  <script>
+
+    const items = ref([{ message: 'Foo' }, { message: 'Bar' }])
+
+    const myObject = reactive({
+      title: 'How to do lists in Vue',
+      author: 'Jane Doe',
+      publishedAt: '2016-04-10'
+    })
+
+  </script>
+
+  <li v-for="(value, key, index) in myObject" :key="index">
+    {{ index }}. {{ key }}: {{ value }}
+  </li>
+
+  <li v-for="(item, index) in items" :key="index">
+    {{ item.message }}
+  </li>
+
+  sintaksis olaraq in evezine of da yaza bilersen.
+
+  <div v-for="item of items"></div>
+
+
+  Link: https://vuejs.org/guide/essentials/list.html
+
+  14) Event Handling - handler ler iki cur olur, inline ve method.Methodlar scriptden
+  gelen hazir funksiyalardir, inline ise el ile yazilan;
+
+  inline:
+  <button @click="count++">Add 1</button>
+  <p>Count is: {{ count }}</p>
+
+  method:
+  <button @click="greet">Greet</button>
+
+  event modifiers -
+
+  <!-- the click event's propagation will be stopped -->
+  <a @click.stop="doThis"></a>
+
+  <!-- the submit event will no longer reload the page -->
+  <form @submit.prevent="onSubmit"></form>
+  ve basqalari da var.
+
+  LinK: https://vuejs.org/guide/essentials/event-handling.html
+
+  15) Form Input Bindings -
+
+  v-model ile inputla stateni baglamaq ve onsuz baglama:
+
+  <input :value="text" @input="event => text = event.target.value">
+
+  v-model ile
+  <input v-model="text">
+
+  Radioda selectde hamisinda v-model istifade olunur:
+
+  <select v-model="selected">
+    <option disabled value="">Please select one</option>
+    <option>A</option>
+    <option>B</option>
+    <option>C</option>
+  </select>
+
+  <!-- `picked` is a string "a" when checked -->
+  <input type="radio" v-model="picked" value="a" />
+
+  <!-- `toggle` is either true or false -->
+  <input type="checkbox" v-model="toggle" />
+
+  <!-- `selected` is a string "abc" when the first option is selected -->
+  <select v-model="selected">
+    <option value="abc">ABC</option>
+  </select>
+
+  lazy qoysaq focusout olmasaq statenin ozunu deyismir, bu ise render sayini azaldir.
+
+  <input v-model.lazy="msg" />
+
+  Valuenin avtomatik number olmasi ucun:
+
+  <input v-model.number="age" />
+
+  Avtomatik trim olmasi ucun:
+
+  <input v-model.trim="msg" />
+
+  Link: https://vuejs.org/guide/essentials/forms.html
+
+  16) 
+
+  17)
+
+
+
+
+
+
+</body>
+
+</html>
