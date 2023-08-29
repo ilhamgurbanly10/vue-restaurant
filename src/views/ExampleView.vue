@@ -4,6 +4,18 @@
 
   import { ref } from 'vue';
 
+  import { useI18n } from 'vue-i18n'; // Import useI18n from vue-i18n
+
+const { t, locale } = useI18n(); // Use useI18n to access i18n properties
+
+const changeLanguage = () => {
+  alert(locale.value);
+  locale.value = "de" // Change the locale to 'de'
+};
+
+const apiBaseUrl = import.meta.env.VUE_APP_API_BASE_URL;
+console.log(import.meta.env)
+
   const msg = ref('hello');
 
   const count = ref(2)
@@ -16,8 +28,14 @@
     count.value--
   }
 
-  import { reactive, computed, watchEffect } from 'vue'
+  import { reactive, computed, watchEffect, onMounted } from 'vue'
 
+  const input = ref(null)
+    
+    onMounted(() => {
+      input.value.focus()
+    })
+    
   const computedValue = computed(() => count.value * 2);
 
   const state = reactive({ count: 0 })
@@ -45,6 +63,8 @@ watchEffect(async () => {
   doubleCount.value = count.value * 2;
 })
 
+
+
 import { watch } from 'vue'
 
 const question = ref('')
@@ -69,6 +89,10 @@ watch(question, async (newQuestion, oldQuestion) => {
 
 <template>
 
+<p>API Base URL: {{ apiBaseUrl }}</p>
+
+<button @click="changeLanguage">Change Language</button>
+  <p>{{ t('welcome') }}</p>
 <p>
     Ask a yes/no question:
     <input v-model="question" />
@@ -102,18 +126,33 @@ watch(question, async (newQuestion, oldQuestion) => {
 
   <p>Double Count: {{ doubleCount }}</p>
 
-  <input v-model.lazy="msg" />
+  <input v-model.lazy="msg" ref="input" />
   {{ msg }}
+
+
 
   <!-- <ul>
     <Card v-for="(item, index) in items" :key="index" :name="item.name" :description="item.description" />
   </ul> -->
+
+  <p class="scss-test">SCSS TEST</p>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+
+  $black: black;
+  $white: white;
+
 .example {
   display: block !important;
   background-color: red;
   color: white !important;
 }
+
+.scss-test {
+  background-color: $black;
+  color: $white;
+}
 </style>
+
+<style src="../assets/component.scss" lang="scss" scoped></style>

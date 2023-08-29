@@ -681,9 +681,373 @@
 
   Link: https://vuejs.org/guide/essentials/forms.html
 
-  16) 
+  16) Template Refs -
 
-  17)
+  ref attributdur ve Reactda oldugu kimi DOM elementine birbasa catmaq ucundur.
+  .current evezine .value ile secirik.
+
+  <script setup>
+    import { ref, onMounted } from 'vue'
+
+    // declare a ref to hold the element reference
+    // the name must match template ref value
+    const input = ref(null)
+
+    onMounted(() => {
+      input.value.focus()
+    })
+  </script>
+
+  <template>
+    <input ref="input" />
+  </template>
+
+  Link: https://vuejs.org/guide/essentials/template-refs.html
+
+  17) Components Basics -
+
+  defineProps(['title']) - props alma
+
+  Card02 name="Hello World" description="Desc" />
+
+  card ozu:
+
+  <script setup lang="ts">
+    defineProps < {
+      name: string,
+      description: string;
+    } > ()
+  </script>
+
+  <template>
+
+    <div class="card">
+
+      <h3 class="name">{{name}}</h3>
+      <p class="description">{{description}}</p>
+    </div>
+
+  </template>
+
+  tre ile yazilan camel case ile yazilir:
+
+  defineProps({
+  greetingMessage: String
+  })
+
+  <MyComponent greeting-message="hello" /> camel case ile de yaza bilersen
+
+  Link: https://vuejs.org/guide/essentials/component-basics.html
+
+  18) i18n -
+
+  Yukleme:
+
+  npm install vue-i18n
+
+  src/i18n qovluqu yaradiriq ve buraya az.json ve diger dilleri qoyuruq
+  burada hemcinin index.js fayli yaradib dilleri buraya import edirik
+
+  index.js
+  <script>
+    import en from './en.json';
+    import de from './de.json';
+    import az from './az.json';
+
+    export default {
+      az,
+      en,
+      de,
+      // Add more language messages as needed
+    };
+  </script>
+
+  main.ts da bunlari qoyuruq
+
+  <script>
+    import './assets/main.css'
+
+    import { createApp } from 'vue'
+    import App from './App.vue'
+    import router from './router'
+
+    // i18n
+    import { createI18n } from 'vue-i18n';
+
+    // i18n
+    import messages from './i18n';
+
+    // i18n
+    const i18n = createI18n({
+      locale: 'az',
+      messages,
+    });
+
+    const app = createApp(App)
+
+    app.use(router)
+
+    // i18n
+    app.use(i18n);
+
+    app.mount('#app')
+
+  </script>
+
+  Bu formada istifade edirik - <p>{{ $t('welcome') }}</p>
+
+  Dili ise bele deyisirik - this.$i18n.locale = 'de';
+
+  Composition api de ferqli olur:
+
+  bele import edirik
+  <script>
+    import { useI18n } from 'vue-i18n'; // Import useI18n from vue-i18n
+
+    const { t, locale } = useI18n(); // Use useI18n to access i18n properties
+
+    const changeLanguage = () => {
+      alert(locale.value);
+      locale.value = "de" // Change the locale to 'de'
+    };
+  </script>
+
+  locale.value ile hem dili ala, hem de ki deyise bilirik.
+
+  t ile istifade edib, setLocale ile deyisirik
+
+  <button @click="changeLanguage">Change Language</button>
+  <p>{{ t('welcome') }}</p>
+
+  composition api de main.ts ya legacy add et
+
+  <script>
+    const i18n = createI18n({
+      legacy: false,
+      locale: 'az',
+      messages,
+    });
+  </script>
+
+  19) 404 page -
+
+  <script>
+    // router.js
+    import { createRouter, createWebHistory } from 'vue-router';
+    import NotFound from '@/views/NotFound.vue'; // Adjust the path accordingly
+
+    const routes = [
+      // ...your other routes
+      // Define the catch-all route at the end
+      { path: '/:catchAll(.*)', component: NotFound },
+    ];
+
+    const router = createRouter({
+      history: createWebHistory(),
+      routes,
+    });
+
+    export default router;
+
+  </script>
+
+  20) @ isaresi src folderin qisa yoludur -
+
+  <script>
+    import NotFound from '@/views/NotFound.vue'; // Adjust the path accordingly
+  </script>
+
+  21) env files -
+
+  https://www.youtube.com/watch?v=0PH9O88ytN8
+
+  Link: https://cli.vuejs.org/guide/mode-and-env.html#environment-variables
+
+  22) scss and sass -
+
+  npm install sass --save-dev
+
+  <style scoped lang="scss">
+    $black: black;
+
+    .example {
+      display: block !important;
+      background-color: red;
+      color: white !important;
+    }
+
+    .scss-test {
+      background-color: $black;
+    }
+  </style>
+
+  Umumi ve komponent ucun scc cagirma:
+
+  <link rel="stylesheet" href="src/assets/main.scss"> index.html ya atiriq,
+  scoped olanlarin da klasslarina tesir edir
+
+  <style src="../assets/component.scss" lang="scss" scoped></style>
+  komponent daxilinde xarici scss cagirma
+
+  23) Chakra for Vue JS -
+
+  Yukleme:
+
+  npm install @chakra-ui/vue @emotion/css
+
+  main.js e add etme:
+
+  <script>
+    import Vue from 'vue'
+    import Chakra, { CThemeProvider } from '@chakra-ui/vue'
+    import App from './App.vue'
+
+    Vue.use(Chakra)
+
+    new Vue({
+      el: '#app',
+      render: (h) => h(CThemeProvider, [h(App)])
+    }).$mount()
+  </script>
+
+  Link: https://vue.chakra-ui.com
+
+  https://vue.chakra-ui.com/getting-started
+
+  24) Vuex -
+
+  Yukleme: npm install vuex@next --save
+
+  Qosma:
+
+  Isler: Store yaratdiq, burada statelerimiz ve mutationlarimiz olacaq.
+  VuexView.vue ve store faylinda yer alib izahlar
+  main.ts ya da elaveler alib
+
+  module duzeltme: hamisi post ve store faylinda gosterilib
+
+  Isleme mentiqi: Komponentden birbasa mutation olur ve yaxud action olur ve action mutationu isledir,
+  sonra state deyisir, state ya birbasa komponente gedir ya da ki ondan sonra getters isleyir ve komponente stateni
+  aparir.Komponentde yeniden
+  mutation ve yauxd actionlar baslayaraq eyni dongunu tekrarlayir.
+
+  sateler - statedir
+
+  mutations - state deyismek ucun funksiyalardir.async ola bilmirler.
+
+  actions - async ola bilerler ve bunlar mutationlari cagirirlar.
+
+  getters - stateleri qaytarir, burada stateler uzerinde is gore bilerik, filter ve sair kimi
+  meselen ancaq done olmus stateleri qaytara bilerik.
+
+  modules - sadece bolgu ucundur, kodlar ayri yerde olsun deye.
+
+  composition api de getters ve stateler computed olmalidir.
+
+  <script>
+    import { computed } from 'vue'
+    import { useStore } from 'vuex'
+
+    export default {
+      setup() {
+        const store = useStore()
+
+        return {
+          // access a state in computed function
+          count: computed(() => store.state.count),
+
+          // access a getter in computed function
+          double: computed(() => store.getters.double)
+        }
+      }
+    }
+  </script>
+
+  Link: https://vuex.vuejs.org/guide/
+
+  25) axios -
+
+  npm install axios --save
+
+  26) emits - komponentlere emit ile funksiylara da oturule biler.Emit funksiyalari
+  komponentden komponente oturmek ucundur.
+
+  Funksiya props ile de oturule biler, valideyn komponent ile nese elaqesi olacaqsa
+  eventin emit istifade etmek daha yaxsidir.
+
+  bele oturursen
+  <MyComponent @some-event="callback" />
+
+  bele alirsan, $emit ile.Camel case meselesi burada da var.
+  defineEmits ile emits mueyyen olunur.
+  <script setup>
+    defineEmits(['inFocus', 'submit'])
+  </script>
+
+  burada eger funksiyada istifade etmek isteyirikse emiti variableye beraber edirik.
+  <script setup>
+    const emit = defineEmits(['inFocus', 'submit'])
+
+    function buttonClick() {
+      emit('submit')
+    }
+  </script>
+
+  1 paramterdir, string etsen tek dirnaq '' arasinda qoy
+  <button @click="$emit('someEvent', 'ilham')">click me</button>
+
+  Link: https://vuejs.org/guide/components/events.html#declaring-emitted-events
+
+  27) slots - reactda ki children kimidir, slot komponent icinde children kimi yazilir ve
+  komponent cagirilan yerde icerisinde oturulen kontent olur.
+
+  slot icerisine fallback content qoyula bilir, eger hec bir kontent add olunmasa o gelir.
+
+  slotu ad ile ayri-ayri da oturub cagira bilirik, sadece template icerisinde istifade
+  edirik v-slot:name ve yaxud qisa yolla #name yaziri ve bunu slot name attributu ile komponentde
+  istediyimiz yerde cagiririg. v-slot directive sayilir ve named slot ucun istifade olunur.
+
+  <Card02 name="Hello World" description="Desc" first-greeting="Hellooo" @say-hello="sayHello"
+    @say-goodbye="sayGoodbye">
+
+    <p>I am slot</p>
+
+    <template #myheader>
+      <p>I am first header</p>
+    </template>
+
+  </Card02>
+
+  <div class="card">
+
+    <h3 class="name">{{name}}</h3>
+    <p class="description">{{description}}</p>
+    <p class="description">{{firstGreeting}}</p>
+
+    <button @click="$emit('sayHello', 'ilham')">Say Hello</button>
+
+    <button @click="$emit('sayGoodbye', 'ilham')">Say Goodbye</button>
+
+    <slot name="myheader">
+      <p>I am Header</p>
+    </slot>
+    <slot>
+      <p>I am content</p>
+    </slot>
+
+  </div>
+
+  Link: https://vuejs.org/guide/components/slots.html#named-slots
+
+  28) Provide / Inject - 
+
+  Link: https://vuejs.org/guide/components/provide-inject.html#provide
+
+  29) Async Components -
+
+  Link: https://vuejs.org/guide/components/async.html
+
+  30) 
 
 
 
