@@ -12,12 +12,18 @@
 
     const message = inject('hello', 'default value')
 
+    // custom directive
+    const vBackground = {
+      mounted: (el: any, binding: any) => el.style.backgroundColor = binding.value || 'red'
+    }
+
 </script>
 
 <template >
 
     <div class="card">
 
+        <p v-background="'blue'" v-my-color="'black'">Background</p>
         <h3>{{ message.value }}</h3>
         <button @click="message.update()">Change Message</button>
         <h3 class="name">{{name}}</h3>
