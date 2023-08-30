@@ -7,12 +7,19 @@
 
     const emit = defineEmits(['sayHello', 'sayGoodbye'])
 
+    // bele inject edirik, inject key ile
+    import { inject, reactive } from 'vue'
+
+    const message = inject('hello', 'default value')
+
 </script>
 
 <template >
 
     <div class="card">
 
+        <h3>{{ message.value }}</h3>
+        <button @click="message.update()">Change Message</button>
         <h3 class="name">{{name}}</h3>
         <p class="description">{{description}}</p>
         <p class="description">{{firstGreeting}}</p>

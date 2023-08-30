@@ -859,6 +859,15 @@
 
   21) env files -
 
+  .env.production ve env.development fayli yarat
+  adi VITE_API_KEY ile baslamalidir.
+
+  VITE_API_KEY = 123-123-123-123
+
+  cagiranda, composition api ucun:
+
+  console.log(import.meta.env.VITE_API_KEY)
+
   https://www.youtube.com/watch?v=0PH9O88ytN8
 
   Link: https://cli.vuejs.org/guide/mode-and-env.html#environment-variables
@@ -1039,15 +1048,237 @@
 
   Link: https://vuejs.org/guide/components/slots.html#named-slots
 
-  28) Provide / Inject - 
+  28) Provide / Inject - useContext kimidir Reactda ki. Bir-bir propslarla child to child
+  oturmekdense, parentden butun child komponentlere paylayiriq.
+
+  parent component
+
+  <script>
+    // provide
+    import { provide, reactive } from 'vue'
+
+    // iki parametr qebul edir, injection key 1-ci olan keydir, ikinci ise value.Ikinci
+    // teref reactive state de ola biler, her hansi bir sey
+    const mes = reactive({ value: 'hello ilham' });
+    provide('hello', mes);
+  </script>
+
+  child component
+
+  <script>
+    // bele inject edirik, inject key ile, 'default value' uygun inject key tapilmadiga 
+    // calisir
+    import { inject, reactive } from 'vue'
+
+    const message = inject('hello', 'default value')
+
+    const changeMes = () => {
+      message.value = 'hello Bro'
+    }
+  </script>
+
+  <p>{{ mes.value }}</p>
+
+  child da ref deyisdirmek istesen bunu funksiya atmaq ile et
+
+  <script setup>
+    const mes = ref('hello ilham');
+
+    provide('hello', {
+      value: mes,
+      update: updateData
+    });
+
+  </script>
+
+  childda
+
+  <script setup>
+    // bele inject edirik, inject key ile
+    import { inject, reactive } from 'vue'
+
+    const message = inject('hello', 'default value')
+
+  </script>
+
+  <h3>{{ message.value }}</h3>
+  <button @click="message.update()">Change Message</button>
+
+  <script setup>
+    import { provide, ref } from 'vue'
+
+    const location = ref('North Pole')
+
+    function updateLocation() {
+      location.value = 'South Pole'
+    }
+
+    provide('location', {
+      location,
+      updateLocation
+    })
+  </script>
+
+  child da deyismemeyini istesen readonly() arasinda oturursen
+
+  <script setup>
+    import { ref, provide, readonly } from 'vue'
+
+    const count = ref(0)
+    provide('read-only-count', readonly(count))
+  </script>
 
   Link: https://vuejs.org/guide/components/provide-inject.html#provide
 
-  29) Async Components -
+  29) Async Components - ansinxron olaraq yuklenen komponentler ucundurler.Lazim olduqda
+  komponent yuklenir ve sehifenin initial yuklenmesini azaldir.Next dynamic kimidir bir nov.
+  Reactda ki lazy ve suspensenin evezidir.
+
+  #error - error ucun, #fallback yuklenme ucun, #default ise ozu ucun istifade olunur.Bunlar
+  Suspense ucundurler ve v-slot qisalma formasidir buna gore Suspensenin slotu adlanirlar.
+
+  <script setup lang="ts">
+
+    import { defineAsyncComponent, Suspense } from 'vue';
+
+    const Card02 = defineAsyncComponent(() =>
+      import('../components/cards/Card02.vue')
+    );
+
+  </script>
+
+  iki componente ayri loader qoymaq isteyirikse iki ayri suspense istifade edirik.
+
+  <Suspense>
+    <template #default>
+      <Card02 name="Hello World" description="Desc" first-greeting="Hellooo" @say-hello="sayHello"
+        @say-goodbye="sayGoodbye">
+
+        <p>I am slot</p>
+
+        <template #myheader>
+          <p>I am first header</p>
+        </template>
+
+      </Card02>
+    </template>
+    <template #fallback>
+      <p>Loading......</p>
+    </template>
+  </Suspense>
+
+  <Suspense>
+    <template #default>
+      <AnotherComponent />
+    </template>
+    <template #fallback>
+      <p>Another Loading......</p>
+    </template>
+    <template #error>
+      <!-- This content will be displayed if there's an error while loading -->
+      <div>Error loading component.</div>
+    </template>
+  </Suspense>
+
+  Suspense ile birlikde istifade oluna bilir.
+
+  Suspensenin iki slotu var: #default ve #fallback, defolt ozudur, yuklenme aninda ise fallback gelir.
+
+  Suspense ile birlikde istifade olunur, loaderi gostermek ucun.
 
   Link: https://vuejs.org/guide/components/async.html
+  Suspense Link: https://vuejs.org/guide/built-ins/suspense.html
 
-  30) 
+  30) Tailwind -
+
+  install edirik -
+
+  npm install tailwindcss postcss autoprefixer
+
+  config fayli yaradiriq -
+
+  npx tailwindcss init -p
+
+  bu fayli yarat esas hissede
+
+  postcss.config.js
+
+  icini bele doldur -
+
+  module.exports = {
+  purge: ['./src/**/*.{vue,js,ts,jsx,tsx}'], // Adjust the paths to match your project structure
+  darkMode: false, // or 'media' or 'class'
+  theme: {
+  extend: {},
+  },
+  variants: {
+  extend: {},
+  },
+  plugins: [],
+  };
+
+
+  Bunlari main css e import et
+
+  @import 'tailwindcss/base';
+  @import 'tailwindcss/components';
+  @import 'tailwindcss/utilities';
+
+  31) Vue ve Vite ferqi -
+
+
+  32) Custom Lifecycle Hook yaratma -
+
+  hooks/useCustomLifecycle.ts yarat
+
+  <script>
+    import { ref, reactive, onMounted, onBeforeUnmount, Ref } from 'vue';
+
+    interface CustomData {
+      message: string;
+    }
+
+    export function useCustomLifecycle() {
+      const counter: Ref<number> = ref(0);
+      const data: CustomData = reactive({
+        message: 'Hello from custom lifecycle hook',
+      });
+
+      onMounted(() => {
+        console.log('Component mounted');
+        increaseCounter();
+        logMessage();
+      });
+
+      onBeforeUnmount(() => {
+        console.log('Component unmounted');
+      });
+
+      const increaseCounter = () => {
+        counter.value++;
+      };
+
+      const logMessage = () => {
+        console.log(data.message);
+      };
+
+      return {
+        counter,
+        data,
+      };
+    }
+
+  </script>
+
+  komponentde istifadesi:
+
+  <script>
+    import { useCustomLifecycle } from '../../hooks/useCustomLifecycle';
+    const { counter, data } = useCustomLifecycle();
+  </script>
+
+  33)
+
 
 
 

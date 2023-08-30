@@ -1,69 +1,109 @@
 <script setup lang="ts">
 
-import Card02 from '../components/cards/Card02.vue'
+import { useCustomLifecycle } from '../../hooks/useCustomLifecycle';
 
-  import { ref, computed, onMounted } from 'vue';
+const { counter, data } = useCustomLifecycle();
 
-  const msg = ref('hello');
+import { defineAsyncComponent, Suspense } from 'vue';
 
-  import { useStore } from 'vuex';
+const Card02 = defineAsyncComponent(() =>
+  import('../components/cards/Card02.vue')
+);
 
-  const store = useStore();
+import { ref, computed, onMounted } from 'vue';
 
-  const count = store.state.count;
+const msg = ref('hello');
 
-  const increment = () => {
-    store.commit('increment');
-  };
+import { useStore } from 'vuex';
 
-  const newTodo = ref('')
+const store = useStore();
 
-  const todos = store.getters.allTodos;
-  const cities = computed(() => {
-    return store.getters.allCities;
-  });
+const count = store.state.count;
 
-  const todosLength = computed(() => {
-    return store.getters.todosLength;
-  });
+const increment = () => {
+  store.commit('increment');
+};
 
-  const add = () => {
-    store.commit('addToDo', {newTodo: newTodo.value});
-    newTodo.value = "";
-  };
-  
-  onMounted(() => { 
-    store.dispatch('incrementInitial', {newTodo: 'bbbn'}); 
-    store.dispatch('getCities', {});
-  })
+const newTodo = ref('')
 
-  const sayHello = (name: string) => {
-    alert("Hello " + name);
-  }
+const todos = store.getters.allTodos;
+const cities = computed(() => {
+  return store.getters.allCities;
+});
 
-  const sayGoodbye = (name: string) => {
-    alert("Goodbye " + name);
-  }
+const todosLength = computed(() => {
+  return store.getters.todosLength;
+});
+
+const add = () => {
+  store.commit('addToDo', { newTodo: newTodo.value });
+  newTodo.value = "";
+};
+
+onMounted(() => {
+  store.dispatch('incrementInitial', { newTodo: 'bbbn' });
+  store.dispatch('getCities', {});
+})
+
+const sayHello = (name: string) => {
+  alert("Hello " + name);
+}
+
+const sayGoodbye = (name: string) => {
+  alert("Goodbye " + name);
+}
+
+// provide
+import { provide, reactive } from 'vue'
+
+const updateData = () => {
+  mes.value = 'Hello John';
+}
+// iki parametr qebul edir, injection key 1-ci olan keydir, ikinci ise value.Ikinci
+// teref reactive state de ola biler, her hansi bir sey
+const mes = ref('hello ilham');
+
+provide('hello', {
+  value: mes,
+  update: updateData
+});
+
+console.log(import.meta.env.VITE_API_KEY)
 
 </script>
 
 <template>
 
-  <Card02 
-    name="Hello World" 
-    description="Desc" 
-    first-greeting="Hellooo" 
-    @say-hello="sayHello"
-    @say-goodbye="sayGoodbye"
-  > 
-  
-  <p>I am slot</p> 
-  
-  <template #myheader>
-    <p>I am first header</p>
-  </template>
+  <p>{{ data.message }} {{ counter }}</p>
+  <p>{{ mes }}</p>
 
-</Card02>
+  <Suspense>
+      <template #default>
+        <Card02 name="Hello World" description="Desc" first-greeting="Hellooo" @say-hello="sayHello" @say-goodbye="sayGoodbye">
+
+          <p>I am slot</p>
+
+    <template #myheader>
+      <p>I am first header</p>
+    </template>
+
+  </Card02>
+      </template>
+      <template #fallback>
+        <p>Loading......</p>
+      </template>
+    </Suspense>
+    
+
+    <div class="bg-blue-500 text-white p-4 fixed">
+    Hello from Tailwind CSS!
+  </div>
+
+  
+
+    
+
+  <p>{{ mes.value }}</p>
 
   <div>
     <p>Count: {{ store.state.count }}</p>
@@ -83,6 +123,7 @@ import Card02 from '../components/cards/Card02.vue'
 </template>
 
 <style scoped lang="scss">
+
 $black: black;
 $white: white;
 
