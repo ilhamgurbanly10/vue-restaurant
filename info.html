@@ -1450,11 +1450,209 @@
 
   Link: https://vuejs.org/guide/reusability/custom-directives.html
 
-  35) Transition: 
+  35) Transition: Komponentlere DOMA daxil olduqda ve yaxud cixdiqda animasiya vermek
+  ucundur. Bu ve bunda sonra gelenler built-in components sayilir.
 
-  Link: https://vuejs.org/guide/built-ins/transition.html
 
-  36) 
+
+  built-in component sayilir, built-in komponent o demekdir ki onu cagirmadan
+  her hansisa komponent daxilinde islede bilersen.
+
+  Komponent v-show ve ya v-if ile de DOM a daxil olub, cixa biler.
+
+  <Transition> - bir element DOM a daxil olanda ve yaxud cixanda animasiya gostermek
+    ucundur.
+
+    <TransitionGroup> - v-for dongusunde olan komponent ucundur.
+
+      Numune:
+
+      <script setup lang="ts">
+
+        import { ref, computed, onMounted } from 'vue';
+
+        const show = ref < boolean > (false);
+
+      </script>
+
+      <template>
+        <div class="block">
+
+          <button @click="show = !show">Toggle</button>
+          <Transition>
+            <p v-if="show">hello</p>
+          </Transition>
+
+        </div>
+      </template>
+
+      <style scoped lang="scss">
+        .v-enter-active,
+        .v-leave-active {
+          transition: opacity 0.5s ease;
+        }
+
+        .v-enter-from,
+        .v-leave-to {
+          opacity: 0;
+        }
+      </style>
+
+      bu elementlere avtomatik olaraq VUE asagidaki klasslari elave edir,
+
+      v-enter-from - element insert olmamisdan once verilir, ve insert olduqda silinir.
+
+      v-enter-to - insert olduqdan sonra verilir ve animasiya biten kimi silinir.
+
+      v-enter-active - butun vaxti movcud olur yuxaridaki iki klass ile birlikde,insertden
+      once verilir ve animasiya bitdikden sonra cixarilir
+
+      Yuxaridaki 3 dene daxil olma donemine aiddir, cixam ise asagidakilardir ve eyni mentiqle,
+      insert evezine cixmaqdir sadece.
+
+      v-leave-from - leave den once ise dusur ve transition baslayanda silinir.
+
+      v-leave-to - leave olanda ise dusur, transition bitende silinir.
+
+      v-leave-active - her ikisinde isleyir.
+
+      Klasslara ayri ad qoya bilerik bele, name ye verdiyin ad v- evezine klassin evvelinde gelir.
+
+      <Transition name="fade">
+        ...
+      </Transition>
+
+      <style>
+        .fade-enter-active,
+        .fade-leave-active {
+          transition: opacity 0.5s ease;
+        }
+
+        .fade-enter-from,
+        .fade-leave-to {
+          opacity: 0;
+        }
+      </style>
+
+      Hanisa hazir library istifade edirsense klass adlarini bele deyisdire bilirsen
+
+      <Transition name="custom-classes" enter-active-class="animate__animated animate__tada"
+        leave-active-class="animate__animated animate__bounceOutRight">
+        <p v-if="show">hello</p>
+      </Transition>
+
+      Vaxti bele de vere bilersen:
+
+      <Transition :duration="{ enter: 500, leave: 800 }">...</Transition>
+
+      Link: https://vuejs.org/guide/built-ins/transition.html
+
+      Group ucun
+
+      Link: https://vuejs.org/guide/built-ins/transition-group.html
+
+      36) KeepAlive - eger komponentler arasinda swithc edirsense (meslen biri gorunende
+      digerleri gorunmur) bu halda gorunmeyenlerin statesi ve diger instanslari itir, keep ALive
+      ise bunlari kesde saxlamaq ucundur, meselen formda gizledilen inputun deyeri itsin istemirsen.
+
+
+      <KeepAlive>
+        <component :is="activeComponent" />
+      </KeepAlive>
+
+      keslenme limiti teyin ede bilersen max ile
+
+      <KeepAlive :max="10">
+        <component :is="activeComponent" />
+      </KeepAlive>
+
+      Include ve Exclude:
+
+      <!-- comma-delimited string -->
+      <KeepAlive include="a,b">
+        <component :is="view" />
+      </KeepAlive>
+
+      <!-- regex (use `v-bind`) -->
+      <KeepAlive :include="/a|b/">
+        <component :is="view" />
+      </KeepAlive>
+
+      <!-- Array (use `v-bind`) -->
+      <KeepAlive :include="['a', 'b']">
+        <component :is="view" />
+      </KeepAlive>
+
+      Qeyd: Built-in komponentler odur ki onlari install etmeye ehtiyac yoxdur ve
+      onlari her bir komponentde import etmeden istifade ede bilersen.
+
+      Link: https://vuejs.org/guide/built-ins/keep-alive.html
+
+      37) Suspense - Melumdur, ve built-in component sayilir.
+
+      Link: https://vuejs.org/guide/built-ins/suspense.html
+
+      38) Teleport - eger bir komponent ti Vue applicationdan kenarda gostermek
+      isteyirikse istifade olunur.Umumiyyetle bir komponenti istenilen basqa bir
+      yere css selector ile yerlesdirmek ucundur.id="app" olan div den kenara qoyur, xususile modal
+      ucun faydalidir.Built-in komponent sayilir.
+
+      to="body" yazilan yere her hansi CSS selektoru yazib oraya ata bilerik, klass bele.
+
+      <button @click="open = true">Open Modal</button>
+
+      <Teleport to="body">
+        <div v-if="open" class="modal">
+          <p>Hello from the modal!</p>
+          <button @click="open = false">Close</button>
+        </div>
+      </Teleport>
+
+      diable ede bilerik, meselen isteyirikse mobile de gorunmesin.
+
+      <Teleport :disabled="isMobile">
+        ...
+      </Teleport>
+
+      to 
+
+      <Teleport to="#modals">
+        <div>A</div>
+      </Teleport>
+      <Teleport to="#modals">
+        <div>B</div>
+      </Teleport>
+
+      <div id="modals">
+        <div>A</div>
+        <div>B</div>
+      </div>
+
+      Link: https://vuejs.org/guide/built-ins/teleport.html
+
+      39) Single-File Components - Scaling up dan sayilir 
+
+      Link: https://vuejs.org/guide/scaling-up/sfc.html
+
+      40) Routing: 
+
+      Link: https://vuejs.org/guide/scaling-up/routing.html#simple-routing-from-scratch
+
+      41) SSR ve SSG:
+
+      Vuede de SSR mumkundur, faydalari da var.SEO ve suret baximindan da faydalidir.
+      Brauzerde render olacagina, serverde render olub hazir gelir.
+
+      SSG de Vue de mumkundur.Eger sehife her bir user ucun eyni olacaqsa her user 
+      daxil olduqda request atmaqdansa yalniz bir defe build zamani request atilir.
+      Bu Pre-rendered pages sayilir, pre-rendering adlanir.
+
+      Pre-rendering HTML contentin serverde yaradilib brazuere yeni client sayta gonderilmesidir.
+      Esas novleri SSR ve SSG dir.Pre-render menasi da evvelden render etmek demekdir.
+
+      Link: https://vuejs.org/guide/scaling-up/ssr.html
+
+      42) 
 
 
 
