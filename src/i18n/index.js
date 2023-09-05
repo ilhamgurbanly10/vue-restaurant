@@ -6,5 +6,4 @@ export default {
   az,
   en,
   de,
-  // Add more language messages as needed
 };

@@ -12,8 +12,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
     "@chakra-ui/vue": "^0.13.1",
     "@emotion/css": "^11.11.2",
+    "ant-design-vue": "^4.0.2",
     "autoprefixer": "^10.4.15",
     "axios": "^1.5.0",
     "postcss": "^8.4.29",

@@ -1614,7 +1614,7 @@
         ...
       </Teleport>
 
-      to 
+      to
 
       <Teleport to="#modals">
         <div>A</div>
@@ -1630,11 +1630,11 @@
 
       Link: https://vuejs.org/guide/built-ins/teleport.html
 
-      39) Single-File Components - Scaling up dan sayilir 
+      39) Single-File Components - Scaling up dan sayilir
 
       Link: https://vuejs.org/guide/scaling-up/sfc.html
 
-      40) Routing: 
+      40) Routing:
 
       Link: https://vuejs.org/guide/scaling-up/routing.html#simple-routing-from-scratch
 
@@ -1643,16 +1643,236 @@
       Vuede de SSR mumkundur, faydalari da var.SEO ve suret baximindan da faydalidir.
       Brauzerde render olacagina, serverde render olub hazir gelir.
 
-      SSG de Vue de mumkundur.Eger sehife her bir user ucun eyni olacaqsa her user 
+      SSG de Vue de mumkundur.Eger sehife her bir user ucun eyni olacaqsa her user
       daxil olduqda request atmaqdansa yalniz bir defe build zamani request atilir.
       Bu Pre-rendered pages sayilir, pre-rendering adlanir.
 
       Pre-rendering HTML contentin serverde yaradilib brazuere yeni client sayta gonderilmesidir.
       Esas novleri SSR ve SSG dir.Pre-render menasi da evvelden render etmek demekdir.
 
+      SSR ve SSG ucun Nuxt istifade etmek olar ve yaxud da Vue nin ozu ile Express JS.
+
       Link: https://vuejs.org/guide/scaling-up/ssr.html
 
-      42) 
+      Link Youtube: https://www.youtube.com/watch?v=XJfaAkvLXyU
+
+      42) Other directives: v-once and v-memo -
+
+      v-once directive verilen hisse ve yaxud komponent yalniz bir defe render olur
+      (ancaq initial render), daha hec bir vaxt render olmur.
+
+      <template>
+        <div>
+          <p v-once>{{ message }}</p>
+        </div>
+      </template>
+
+      <script>
+        export default {
+          data() {
+            return {
+              message: 'This content will only be rendered once.',
+            };
+          },
+        };
+      </script>
+
+      v-memo dependency deyismedikce memoization istifade edir, dependency arraya verilir.
+      Reactda olan memo kimidir.
+
+      <div v-memo="[valueA, valueB]">
+        ...
+      </div>
+
+      v-memo="[]" bu halda v-once ile beraber olur.
+      Link: https://vuejs.org/api/built-in-directives.html#v-memo
+
+      v-cloak - sadece bir attribut kimi verilir, element mount olduqda Vue bu attributu
+      butun elementlerden silir.Sadece meselen mounte qeder attribut selector ile bu elementlere
+      dizayn tetbiq ede bilerik.
+
+      [v-cloak] {
+      display: none;
+      }
+
+
+      <div v-cloak>
+        {{ message }}
+      </div>
+
+      <!DOCTYPE html>
+      <html>
+
+      <head>
+        <title>V-Cloak Example</title>
+        <style>
+          [v-cloak] {
+            display: none;
+          }
+        </style>
+      </head>
+
+      <body>
+        <div id="app" v-cloak>
+          <p>{{ message }}</p>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+        <script>
+          new Vue({
+            el: '#app',
+            data: {
+              message: 'Hello, Vue.js!'
+            }
+          });
+        </script>
+      </body>
+
+      </html>
+
+
+      43) Typescript:
+
+      Ref yazmaq:
+
+      <script>
+        const year = ref < string | number > ('2020')
+      </script>
+
+      Reactive yazmaq:
+
+      <script>
+        import { reactive } from 'vue'
+
+        interface Book {
+          title: string
+          year?: number
+        }
+
+        const book: Book = reactive({ title: 'Vue 3 Guide' })
+
+      </script>
+
+      computed ile:
+
+      <script>
+        const double = computed < number > (() => {
+          // type error if this doesn't return a number
+        })
+      </script>
+
+      Eventler:
+
+      <script>
+        function handleChange(event: Event) {
+          console.log((event.target as HTMLInputElement).value)
+        }
+      </script>
+
+      Inject:
+
+      <script>
+        const foo = inject < string > ('foo')
+      </script>
+
+      Elemetn refs:
+
+      <script setup lang="ts">
+        import { ref, onMounted } from 'vue'
+
+        const el = ref < HTMLInputElement | null > (null)
+
+        onMounted(() => {
+          el.value?.focus()
+        })
+      </script>
+
+      <template>
+        <input ref="el" />
+      </template>
+
+      Link: https://vuejs.org/guide/typescript/overview.html
+
+      44) v-pre: templeytin sintaksisini oldugu kimi gostermek ucundur, bu attribut
+      qoyulan element ve onu children elementlerinde meselen {{}} mustacheler oldugu kimi
+      gorunecek, js kodu kimi gorunecek amm islemeyecek.
+
+      Bu attribut element ve onun childrenleri ucun compilation etmir.
+
+      <span v-pre>{{ this will not be compiled }}</span>
+
+      Link: https://vuejs.org/api/built-in-directives.html
+      Link:
+
+
+      45) Composition api:
+
+      Reactivity - Vue de user interfacenin (UI yeni) her hansi bir datanin deyismesine
+      gore deyismesidir.
+
+      - setup() - hook sayilir, komponentde Composition API istifade etmek ucun istifade
+      olunur.
+
+      - readonly() - bir obyekt goturur, ref ve yaxud reactive de ola biler. Onun yalniz
+      oxunula bilen versiyasini alir, bununla onu deyismek olmur.Amma o deysilse bu da deyisilir
+
+      <script>
+        const original = reactive({ count: 0 })
+
+        const copy = readonly(original)
+
+        watchEffect(() => {
+          // works for reactivity tracking
+          console.log(copy.count)
+        })
+
+        // mutating original will trigger watchers relying on the copy
+        original.count++
+
+        // mutating the copy will fail and result in a warning
+        copy.count++ // warning!
+      </script>
+
+      - watchEffect(), watchPostEffect(), watchSyncEffect() -
+
+      watchEffect() dependency deysidikde ise dusur ve dependency avtomatik goturur.
+
+      effect parametri - funksiya qebul edir ve watchEffect ozu ise dusmezden once ise dusur
+
+      ikinci arqument options dur.
+
+      watchPostEffect() - flush: 'post' secilen variantidir.
+
+      watchSyncEffect() - flush: 'sync' secilen variantidir.
+
+      <script>
+        function watchEffect(
+          effect: (onCleanup: OnCleanup) => void,
+          options?: WatchEffectOptions
+        ): StopHandle
+
+        type OnCleanup = (cleanupFn: () => void) => void
+
+        interface WatchEffectOptions {
+          flush?: 'pre' | 'post' | 'sync' // default: 'pre'
+          onTrack?: (event: DebuggerEvent) => void
+          onTrigger?: (event: DebuggerEvent) => void
+        }
+
+        type StopHandle = () => void
+      </script>
+
+      Link: https://vuejs.org/api/composition-api-setup.html
+
+      Link: https://vuejs.org/api/reactivity-advanced.html#customref
+
+      46)
+
+      Link:
+
+      47)
+
+      Link:
 
 
 
