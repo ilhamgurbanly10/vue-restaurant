@@ -8,7 +8,7 @@
 
 <template>
     <div class="flex items-center justify-center p-5">
-        <loading-outlined />
+        <loading-outlined class="font-15" />
     </div>
 </template>
 

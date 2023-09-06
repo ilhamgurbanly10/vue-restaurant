@@ -1,0 +1,38 @@
+.white-btn {
+
+    background-color: $white;
+    color: $black;
+    transition: color .3s;
+    padding: 1rem 2rem;
+    font-size: 13px;
+    letter-spacing: 2px;
+    position: relative;
+
+    span {
+        position: relative;
+        z-index: 10;
+    }
+
+    &::before {
+        content: '';
+        width: 0;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background-color: $black;
+        transition: width .3s;
+        position: absolute;
+        z-index: 1;
+        
+    }
+
+    &:is(:active,:hover) {
+
+        color: $white !important;
+
+        &::before {
+            width: 100%;
+        }
+
+    }
+}

@@ -2,6 +2,12 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-.scss-test {
-    padding: 3rem !important;
-}
+@import './scss/colors.scss';
+@import './scss/sizes.scss';
+@import './scss/containers.scss';
+@import './scss/texts.scss';
+@import './scss/fonts.scss';
+@import './scss/bg_colors.scss';
+@import './scss/spacing.scss';
+@import './scss/buttons.scss';
+

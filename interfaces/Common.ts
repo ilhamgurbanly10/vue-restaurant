@@ -12,3 +12,16 @@ export interface OurStoryObj {
     error: boolean;
 }
 
+// view-our-menu
+export interface ViewOurMenu {
+    title: string;
+    description: string;
+    subtitle: string;
+    img: string;
+}
+
+export interface ViewOurMenuObj {
+    data: ViewOurMenu | null;
+    error: boolean;
+}
+
