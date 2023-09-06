@@ -52,7 +52,7 @@
             </div>
 
             <div class="full-width lg:w-6/12 lgIpl-4 mt-5 pt-5 lg:mt-0 lg:pt-0">
-                <img :src="data.data?.img" :alt="data.data?.title" class="full-width lg:pr-4">
+                <img :src="data.data?.img" :alt="data.data?.title" class="full-width">
             </div>
 
         </div>
