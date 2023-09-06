@@ -1,33 +1,34 @@
 <script setup lang="ts">
 
-import { ref, onMounted, computed } from 'vue';
-import { useStore } from 'vuex';
-import Loader from '@/components/loaders/Loader.vue';
-import Error from '@/components/errors/Error.vue';
+    import { ref, onMounted, computed } from 'vue';
+    import { useStore } from 'vuex';
+    import Loader from '@/components/loaders/Loader.vue';
+    import Error from '@/components/errors/Error.vue';
 
-// vuex
-const store = useStore();
+    // vuex
+    const store = useStore();
 
-const loading = ref<boolean>(false);
+    const loading = ref<boolean>(false);
 
-const data = computed(() => {
-    return store.getters.viewOurMenu;
-});
+    const data = computed(() => {
+        return store.getters.viewOurMenu;
+    });
 
-const getData = async (): Promise<void> => {
-    loading.value = true;
-    await store.dispatch('getViewOurMenu');
-    loading.value = false;
-}
+    const getData = async (): Promise<void> => {
+        loading.value = true;
+        await store.dispatch('getViewOurMenu');
+        loading.value = false;
+    }
 
-onMounted(() => {
-    getData()
-})
+    onMounted(() => {
+        getData();
+    })
     // end-vuex
 
 </script>
 
 <template>
+
     <section class="main-container mt-10 bg-grey section-py page-top-spacing">
 
         <Loader v-if="loading" />

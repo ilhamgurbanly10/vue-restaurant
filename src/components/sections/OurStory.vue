@@ -21,7 +21,7 @@
     }
 
     onMounted(() => {
-        getData()
+        getData();
     })
     // end-vuex
 
