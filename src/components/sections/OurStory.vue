@@ -4,13 +4,14 @@
     import { useStore } from 'vuex';
     import Loader from '@/components/loaders/Loader.vue';
     import Error from '@/components/errors/Error.vue';
+    import {OurStoryObj} from '@/../../interfaces/Common';
 
     // vuex
     const store = useStore();
 
     const loading = ref<boolean>(false);
 
-    const data = computed(() => {
+    const data = computed<OurStoryObj>(() => {
         return store.getters.ourStory;
     });
 
@@ -29,27 +30,33 @@
 
 <template>
 
+
+
     <section class="main-container page-top-spacing">
 
-        <Loader v-if="loading" />
+        <Transition name="to-top">
+            
+            <Loader v-if="loading" class="loader" />
 
-        <Error v-else-if="data.error" />
+            <Error v-else-if="data.error" class="error" />
 
-        <div v-else-if="!loading && !data.error">
+            <div v-else-if="!loading && !data.error">
 
-            <h3 class="text-center">{{ data.data?.subtitle }}</h3>
+                <h3 class="text-center">{{ data.data?.subtitle }}</h3>
 
-            <h1 class="text-center mt-5 font-bold font-16 font-lg-18">{{ data.data?.title }}</h1>
+                <h1 class="text-center mt-5 font-bold font-16 font-lg-18">{{ data.data?.title }}</h1>
 
-            <p class="text-center mt-5 lg:w-6/12 lg:mx-auto">{{ data.data?.description }}</p>
+                <p class="text-center mt-5 lg:w-6/12 lg:mx-auto">{{ data.data?.description }}</p>
 
-            <div class="flex flex-col lg:flex-row justify-between mt-7 pt-5">
-                <img :src="data.data?.first_image" :alt="data.data?.title" class="full-width lg:w-6/12 lg:pr-4">
-                <img :src="data.data?.second_image" :alt="data.data?.title" class="full-width lg:w-6/12 mt-5 lg:mt-0 lg:pl-4">
+                <div class="flex flex-col lg:flex-row justify-between mt-7 pt-5">
+                    <img :src="data.data?.first_image" :alt="data.data?.title" class="full-width lg:w-6/12 lg:pr-4">
+                    <img :src="data.data?.second_image" :alt="data.data?.title" class="full-width lg:w-6/12 mt-5 lg:mt-0 lg:pl-4">
+                </div>
+
             </div>
-
-        </div>
         
+        </Transition>
+
     </section>
 
 </template>

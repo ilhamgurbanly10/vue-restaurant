@@ -7,6 +7,9 @@ import { createI18n } from 'vue-i18n';
 import messages from './i18n'; 
 import store from '@/store/store';
 import Antd from 'ant-design-vue';
+import SwiperClass, { Swiper, Pagination, Autoplay } from 'Swiper'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/css'
 
 const i18n = createI18n({
   legacy: false, 
@@ -16,9 +19,12 @@ const i18n = createI18n({
 
 const app = createApp(App)
 
+SwiperClass.use([Pagination, Autoplay])
+
 app.use(Antd);
 app.use(router)
 app.use(i18n);
 app.use(store);
+app.use(VueAwesomeSwiper)
 
 app.mount('#app')

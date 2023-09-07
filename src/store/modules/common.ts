@@ -1,13 +1,15 @@
 
 import axios from 'axios';
-import { OurStoryObj, ViewOurMenuObj } from '@/../interfaces/Common';
-import { getOurStory, getViewOurMenu } from '@/utils/getDatas';
+import { OurStoryObj, ViewOurMenuObj, CommentsObj, selectionsObj } from '@/../interfaces/Common';
+import { getOurStory, getViewOurMenu, getComments, getSelections } from '@/utils/getDatas';
 
 export default {
-  state(): {ourStory: OurStoryObj, viewOurMenu: ViewOurMenuObj} {
+  state(): {ourStory: OurStoryObj, viewOurMenu: ViewOurMenuObj, comments: CommentsObj, selections: selectionsObj } {
     return {
       ourStory: { data: null, error: false },
       viewOurMenu: { data: null, error: false },
+      comments: { data: null, error: false },
+      selections: { data: null, error: false },
     }
   },
   mutations: {
@@ -16,6 +18,12 @@ export default {
     },
     setViewOurMenu(state: {viewOurMenu: ViewOurMenuObj}, payload: ViewOurMenuObj) {
       state.viewOurMenu = payload;
+    },
+    setComments(state: {comments: CommentsObj}, payload: CommentsObj) {
+      state.comments = payload;
+    },
+    setSelections(state: {selections: selectionsObj}, payload: selectionsObj) {
+      state.selections = payload;
     }
   },
   getters: {
@@ -24,6 +32,12 @@ export default {
     },
     viewOurMenu(state: {viewOurMenu: ViewOurMenuObj}) {
       return state.viewOurMenu;
+    },
+    comments(state: {comments: CommentsObj}) {
+      return state.comments;
+    },
+    selections(state: {selections: selectionsObj}) {
+      return state.selections;
     }
   },
   actions: {
@@ -36,6 +50,16 @@ export default {
       let data: ViewOurMenuObj = {data: null, error: false};
       data = await getViewOurMenu();
       context.commit('setViewOurMenu', data);
+    },
+    async getComments(context: { commit: Function }, payload: CommentsObj) {
+      let data: CommentsObj = {data: null, error: false};
+      data = await getComments();
+      context.commit('setComments', data);
+    },
+    async getSelections(context: { commit: Function }, payload: selectionsObj) {
+      let data: selectionsObj = {data: null, error: false};
+      data = await getSelections();
+      context.commit('setSelections', data);
     }
   }
 }

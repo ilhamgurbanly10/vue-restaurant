@@ -4,13 +4,14 @@
     import { useStore } from 'vuex';
     import Loader from '@/components/loaders/Loader.vue';
     import Error from '@/components/errors/Error.vue';
+    import {ViewOurMenuObj} from '@/../../interfaces/Common';
 
     // vuex
     const store = useStore();
 
     const loading = ref<boolean>(false);
 
-    const data = computed(() => {
+    const data = computed<ViewOurMenuObj>(() => {
         return store.getters.viewOurMenu;
     });
 
@@ -31,31 +32,35 @@
 
     <section class="main-container mt-10 bg-grey section-py page-top-spacing">
 
-        <Loader v-if="loading" />
+        <Transition name="to-top">
 
-        <Error v-else-if="data.error" />
+            <Loader v-if="loading" class="loader" />
 
-        <div v-else-if="!loading && !data.error" class="flex flex-col lg:flex-row justify-between">
+            <Error v-else-if="data.error" class="error" />
 
-            <div class="full-width lg:w-6/12 lg:pr-4">
+            <div v-else-if="!loading && !data.error" class="flex flex-col lg:flex-row justify-between">
 
-                <h3>{{ data.data?.subtitle }}</h3>
+                <div class="full-width lg:w-6/12 lg:pr-4">
 
-                <h1 class="mt-5 font-bold font-16 font-lg-18">{{ data.data?.title }}</h1>
+                    <h3>{{ data.data?.subtitle }}</h3>
 
-                <p class="mt-5">{{ data.data?.description }}</p>
+                    <h1 class="mt-5 font-bold font-16 font-lg-18">{{ data.data?.title }}</h1>
 
-                <router-link to="/view-our-menu">
-                    <button class="white-btn mt-7"><span>MENYUMUZA BAXIN</span></button>
-                </router-link>
+                    <p class="mt-5">{{ data.data?.description }}</p>
+
+                    <router-link to="/view-our-menu">
+                        <button class="white-btn mt-7"><span>MENYUMUZA BAXIN</span></button>
+                    </router-link>
+
+                </div>
+
+                <div class="full-width lg:w-6/12 lgIpl-4 mt-5 pt-5 lg:mt-0 lg:pt-0">
+                    <img :src="data.data?.img" :alt="data.data?.title" class="full-width">
+                </div>
 
             </div>
 
-            <div class="full-width lg:w-6/12 lgIpl-4 mt-5 pt-5 lg:mt-0 lg:pt-0">
-                <img :src="data.data?.img" :alt="data.data?.title" class="full-width">
-            </div>
-
-        </div>
+        </Transition>
 
     </section>
 

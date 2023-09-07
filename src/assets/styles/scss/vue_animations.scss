@@ -1,0 +1,29 @@
+// to-top
+.to-top-enter-active:not(.loader, .error),
+.to-top-leave-active:not(.loader, .error) {
+    position: relative;
+    bottom: 0;
+    transition: bottom 1s ease;
+}
+
+.to-top-enter-from:not(.loader, .error),
+.to-top-leave-to:not(.loader, .error) {
+   bottom: -300px;
+   transition: bottom 0s ease;
+}
+
+// to-top-sm
+.to-top-sm-enter-active:not(.loader, .error),
+.to-top-sm-leave-active:not(.loader, .error) {
+    position: relative;
+    bottom: 0;
+    opacity: 1;
+    transition: bottom .5s ease, opacity .5s ease;
+}
+
+.to-top-sm-enter-from:not(.loader, .error),
+.to-top-sm-leave-to:not(.loader, .error) {
+   bottom: -100px;
+   opacity: 0;
+   transition: bottom 0s ease, opacity 0s ease;
+}

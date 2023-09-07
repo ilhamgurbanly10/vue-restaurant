@@ -1,0 +1,21 @@
+.swiper-white-dots {
+
+    .swiper-pagination-bullet {
+        background-color: $white;
+        width: 10px;
+        height: 10px;
+    }
+
+}
+
+.outside-swiper-pagination {
+
+    .swiper-pagination-bullet {
+        cursor: pointer;
+    }
+    
+    .swiper-pagination-bullet:not(:last-child) {
+        margin-right: .5rem;
+    }
+    
+}
