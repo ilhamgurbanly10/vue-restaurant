@@ -1,0 +1,44 @@
+// card-underline
+.card-underline {
+
+    .underline {
+        margin-top: 20px;
+        height: 3px;
+        width: 100%;
+        background-color: $darkGrey3;
+        position: relative;
+
+        &::before,
+        &::after {
+            content: '';
+            position: absolute;
+            height: 100%;
+            background-color: $purple;
+            width: 20%;
+            transition: all .5s;
+        }
+
+        &::before {
+            right: 50%;
+        }
+
+        &::after {
+            left: 50%;
+        }
+
+        
+    }
+
+    &:is(:hover, :active) {
+
+        .underline {
+
+            &::before,
+            &::after {
+                width: 50%;
+            }
+        }
+
+    }
+
+}

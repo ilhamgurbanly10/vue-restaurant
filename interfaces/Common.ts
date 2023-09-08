@@ -12,6 +12,20 @@ export interface OurStoryObj {
     error: boolean;
 }
 
+// hero
+export interface Hero {
+    title: string;
+    description: string;
+    subtitle: string;
+    img: string;
+    slug: string;
+}
+
+export interface HeroObj {
+    data: Hero[];
+    error: boolean;
+}
+
 // view-our-menu
 export interface ViewOurMenu {
     title: string;
@@ -64,6 +78,28 @@ export interface Selections {
 
 export interface SelectionsObj {
     data: Selections | null;
+    error: boolean;
+}
+
+// special-recipes
+export interface SpecialRecipe {
+    title: string;
+    description: string;
+    date: string;
+    img: string;
+    slug: string;
+    comment_count: number;
+}
+
+export interface SpecialRecipes {
+    title: string;
+    description: string;
+    subtitle: string;
+    data: SpecialRecipe[];
+}
+
+export interface SpecialRecipesObj {
+    data: SpecialRecipes | null;
     error: boolean;
 }
 

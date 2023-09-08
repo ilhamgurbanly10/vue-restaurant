@@ -2,7 +2,11 @@
 
 import Loader from '@/components/loaders/Loader.vue';
 
-import { defineAsyncComponent } from 'vue';
+import { defineAsyncComponent, onMounted } from 'vue';
+
+const Hero = defineAsyncComponent(() =>
+  import('@/components/sections/Hero.vue')
+);
 
 const OurStory = defineAsyncComponent(() =>
   import('@/components/sections/OurStory.vue')
@@ -20,9 +24,26 @@ const Selections = defineAsyncComponent(() =>
   import('@/components/sections/Selections.vue')
 );
 
+const SpecialRecipes = defineAsyncComponent(() =>
+  import('@/components/sections/SpecialRecipes.vue')
+);
+
 </script>
 
 <template>
+
+  <Suspense>
+
+    <template #default>
+      <Hero />
+    </template>
+
+    <template #fallback>
+      <Loader />
+    </template>
+
+  </Suspense>
+
   <Suspense>
 
     <template #default>
@@ -63,6 +84,18 @@ const Selections = defineAsyncComponent(() =>
 
     <template #default>
       <Selections />
+    </template>
+
+    <template #fallback>
+      <Loader />
+    </template>
+
+  </Suspense>
+
+  <Suspense>
+
+    <template #default>
+      <SpecialRecipes />
     </template>
 
     <template #fallback>

@@ -4,7 +4,7 @@
     import { useStore } from 'vuex';
     import Loader from '@/components/loaders/Loader.vue';
     import Error from '@/components/errors/Error.vue';
-    import {ViewOurMenuObj} from '@/../../interfaces/Common';
+    import type {ViewOurMenuObj} from '@/../../interfaces/Common';
 
     // vuex
     const store = useStore();

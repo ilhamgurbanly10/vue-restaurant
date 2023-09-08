@@ -1,11 +1,11 @@
 import api from './api'
-import { OurStoryObj, ViewOurMenuObj, CommentsObj, SelectionsObj } from '@/../interfaces/Common';
+import type { OurStoryObj, ViewOurMenuObj, CommentsObj, SelectionsObj, SpecialRecipesObj, HeroObj } from '@/../interfaces/Common';
 
 export const getOurStory = async (): Promise<OurStoryObj> => {
   try {
 
     let data: OurStoryObj = { data: null, error: false };
-    const res = await api.get('city/');
+    const res = await api.get('todos/');
     data.data = {
         title: 'BİZİM HEKAYƏ',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sedolorm reminusto doeiusmod tempor incidition ulla mco laboris nisi ut aliquip ex ea commo condorico consectetur adipiscing elitut aliquip.',
@@ -25,7 +25,7 @@ export const getViewOurMenu = async (): Promise<ViewOurMenuObj> => {
   try {
 
     let data: ViewOurMenuObj = { data: null, error: false };
-    const res = await api.get('city/');
+    const res = await api.get('todos/');
     data.data = {
         title: 'İNQREDİENTLƏR',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sedolorm reminusto doeiusmod tempor incidition ulla mco laboris nisi ut aliquip ex ea commo condorico consectetur adipiscing elitut aliquip.',
@@ -44,7 +44,7 @@ export const getComments = async (): Promise<CommentsObj> => {
   try {
 
     let data: CommentsObj = { data: null, error: false };
-    const res = await api.get('city/');
+    const res = await api.get('todos/');
     data.data = {
         comments: [
           {
@@ -82,7 +82,7 @@ export const getSelections = async (): Promise<SelectionsObj> => {
   try {
 
     let data: SelectionsObj = { data: null, error: false };
-    const res = await api.get('city/');
+    const res = await api.get('todos/');
     data.data = {
        data: [
         {
@@ -166,6 +166,86 @@ export const getSelections = async (): Promise<SelectionsObj> => {
   } catch (error) {
     console.error('Error fetching:', error);
     return { data: null, error: true };
+  }
+};
+
+export const getSpecialRecipes = async (): Promise<SpecialRecipesObj> => {
+  try {
+
+    let data: SpecialRecipesObj = { data: null, error: false };
+    const res = await api.get('todos/');
+    data.data = {
+        title: 'XÜSUSİ RESEPTLƏR',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sedolorm reminusto doeiusmod tempor incidition ulla mco laboris nisi ut aliquip ex ea commo condorico consectetur adipiscing elitut aliquip.',
+        subtitle: 'DADLI VƏ LƏZZƏTLİ',
+        data: [
+          {
+            title: 'XÜSUSİ RESEPTLƏR',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sedolorm reminusto doeiusmod tempor incidition ulla mco laboris nisi ut aliquip ex ea commo condorico consectetur adipiscing elitut aliquip.',
+            date: '11 APREL, 2016 SAĞLAM',
+            img: 'https://savory.qodeinteractive.com/wp-content/uploads/2016/04/blog-post1.jpg',
+            comment_count: 10,
+            slug: 'special-recipe'
+          },
+          {
+            title: 'XÜSUSİ RESEPTLƏR',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sedolorm reminusto doeiusmod tempor incidition ulla mco laboris nisi ut aliquip ex ea commo condorico consectetur adipiscing elitut aliquip.',
+            date: '15 APREL, 2016 SAĞLAM',
+            img: 'https://savory.qodeinteractive.com/wp-content/uploads/2016/04/blog-post2.jpg',
+            comment_count: 5,
+            slug: 'special-recipe'
+          },
+          {
+            title: 'XÜSUSİ RESEPTLƏR',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sedolorm reminusto doeiusmod tempor incidition ulla mco laboris nisi ut aliquip ex ea commo condorico consectetur adipiscing elitut aliquip.',
+            date: '20 APREL, 2016 SAĞLAM',
+            img: 'https://savory.qodeinteractive.com/wp-content/uploads/2016/04/blog-post3.jpg',
+            comment_count: 20,
+            slug: 'special-recipe'
+          }
+        ]
+    }
+    return data;
+    
+  } catch (error) {
+    console.error('Error fetching:', error);
+    return { data: null, error: true };
+  }
+};
+
+export const getHero = async (): Promise<HeroObj> => {
+  try {
+
+    let data: HeroObj = { data: [], error: false };
+    const res = await api.get('todos/');
+    data.data = [
+      {
+        title: 'MENYULARIMIZ',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sedolorm reminusto doeiusmod tempor incidition ulla mco laboris nisi ut aliquip ex ea commo condorico consectetur adipiscing elitut aliquip.',
+        subtitle: 'DADLI VƏ LƏZZƏTLİ',
+        img: '//savory.qodeinteractive.com/wp-content/uploads/2016/10/main-home-slide2n.jpg',
+        slug: 'menu-1'
+      },
+      {
+        title: 'RESTORAN',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sedolorm reminusto doeiusmod tempor incidition ulla mco laboris nisi ut aliquip ex ea commo condorico consectetur adipiscing elitut aliquip.',
+        subtitle: 'DADLI VƏ LƏZZƏTLİ',
+        img: '//savory.qodeinteractive.com/wp-content/uploads/2016/10/main-home-slide1.jpg',
+        slug: 'menu-1'
+      },
+      {
+        title: 'LƏZZİZ MƏTBƏXİMİZ',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sedolorm reminusto doeiusmod tempor incidition ulla mco laboris nisi ut aliquip ex ea commo condorico consectetur adipiscing elitut aliquip.',
+        subtitle: 'DADLI VƏ LƏZZƏTLİ',
+        img: '//savory.qodeinteractive.com/wp-content/uploads/2016/10/main-home-slide3.jpg',
+        slug: 'menu-1'
+      }
+    ]
+    return data;
+    
+  } catch (error) {
+    console.error('Error fetching:', error);
+    return { data: [], error: true };
   }
 };
 

@@ -4,7 +4,7 @@
     import { useStore } from 'vuex';
     import Loader from '@/components/loaders/Loader.vue';
     import Error from '@/components/errors/Error.vue';
-    import {SelectionsObj} from '@/../../interfaces/Common';
+    import type {SelectionsObj} from '@/../../interfaces/Common';
 
     const active = ref<string>('');
     const activeIndex = ref<number>(0);

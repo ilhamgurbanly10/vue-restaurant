@@ -6,7 +6,7 @@
     import Error from '@/components/errors/Error.vue';
     import Slider from '@/components/sliders/Slider.vue';
     import CommentCard from '@/components/cards/CommentCard.vue';
-    import {CommentsObj} from '@/../interfaces/Common';
+    import type {CommentsObj} from '@/../interfaces/Common';
     import { SwiperSlide } from 'vue-awesome-swiper'
 
     // vuex

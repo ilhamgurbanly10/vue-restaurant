@@ -1,9 +1,9 @@
 <script setup lang="ts">
 
-    import {Comment} from "@/../interfaces/Common";
+    import type {Comment} from "@/../interfaces/Common";
 
     defineProps < {
-      item: Comment[]
+      item: Comment
     } > ()
 
 </script>

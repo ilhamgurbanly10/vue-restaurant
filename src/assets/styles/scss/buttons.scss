@@ -1,3 +1,4 @@
+// white-btn
 .white-btn {
 
     background-color: $white;
@@ -36,3 +37,17 @@
 
     }
 }
+
+// white-iconic-btn
+.white-iconic-btn {
+
+    color: $white;
+    opacity: 1;
+    transition: opacity .3s;
+
+    &:is(:hover, :active) {
+        opacity: .5;
+    }
+
+}
+
