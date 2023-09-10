@@ -2,8 +2,8 @@
 
     import { ref, onMounted, computed, watch } from 'vue';
     import { useStore } from 'vuex';
-    import Loader from '@/components/loaders/Loader.vue';
-    import Error from '@/components/errors/Error.vue';
+    import IsLoading from '@/components/loaders/IsLoading.vue';
+    import ErrorOcurred from '@/components/errors/ErrorOcurred.vue';
     import type {SelectionsObj} from '@/../../interfaces/Common';
 
     const active = ref<string>('');
@@ -49,9 +49,9 @@
 
         <Transition name="to-top">
 
-            <Loader v-if="loading" class="loader" />
+            <IsLoading v-if="loading" class="loader" />
 
-            <Error v-else-if="data.error" class="error" />
+            <ErrorOcurred v-else-if="data.error" class="error" />
             
             <div v-else-if="!loading && !data.error" class="flex flex-col lg:flex-row justify-between">
                 

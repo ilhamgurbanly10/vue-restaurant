@@ -22,7 +22,7 @@
     }
 
     const playAgain = (): void => {
-      clearInterval(interval.value);
+      if (interval.value) clearInterval(interval.value);
       autoplay();
     }
 

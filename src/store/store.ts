@@ -1,4 +1,4 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
 import commonModule from '@/store/modules/common';
 
 const store = createStore({
@@ -6,7 +6,6 @@ const store = createStore({
       common: commonModule, 
     },
 });
-
 
 export default store;
 

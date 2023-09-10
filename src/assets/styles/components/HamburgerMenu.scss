@@ -1,0 +1,20 @@
+@import '../scss/colors.scss';
+@import '../scss/variables.scss';
+
+.menu {
+
+    top: 100%;
+    left: -100%;
+    transition: left .5s;
+    background-color: $white;
+
+    &.show {
+        left: 0;
+    }
+
+    .link {
+        color: $darkGrey3;
+        border-bottom: 1px solid $darkGrey3;
+    }
+
+}

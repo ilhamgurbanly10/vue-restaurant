@@ -1,0 +1,37 @@
+@import '../scss/colors.scss';
+@import '../scss/variables.scss';
+
+.container {
+    z-index: $maxLayer01;
+    background-color: rgba(0,0,0,.8);
+
+    transition: all .5s;
+    visibility: hidden;
+    opacity: 0;
+
+    .input {
+        background-color: transparent;
+        border: 0;
+        padding: .5rem 1rem;
+        outline: 0 !important;
+        color: $white;
+        
+    }
+
+    .underline {
+        width: 0;
+        border-bottom: 1px solid white;
+        transition: all 1s .7s;
+    }
+
+    &.show {
+        visibility: visible;
+        opacity: 1;
+
+        .underline {
+            width: 100%;
+        }
+    }
+
+    
+}

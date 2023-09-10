@@ -1,0 +1,35 @@
+@import '../scss/colors.scss';
+@import '../scss/variables.scss';
+
+header {
+    z-index: $maxLayer01;
+
+    .dropdownContainer {
+        top: calc(100% + 5rem);
+        opacity: 0;
+        visibility: hidden;
+        transition: all .3s;
+        background-color: rgba(0, 0, 0, .7);
+        min-width: 200px;
+
+        &::before {
+            content: "";
+            width: 100%;
+            left: 0;
+            position: absolute;
+            top: - 2rem;
+            height: 2rem;
+            background-color: transparent;
+        }
+    }
+
+    .dropdown:hover {
+
+        .dropdownContainer {
+            top: calc(100% + 2rem);
+            opacity: 1;
+            visibility: visible;
+        }
+
+    }
+}

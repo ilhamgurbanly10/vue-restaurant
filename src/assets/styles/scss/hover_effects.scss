@@ -1,0 +1,26 @@
+// opacity-on-hover
+.opacity-on-hover {
+    opacity: 1;
+    transition: all .3s !important;
+    &:is(:hover,:active) {
+        opacity: .5;
+    }
+}
+
+// grow-on-hover
+.grow-on-hover {
+    transition: all .3s !important;
+    &:is(:hover,:active) {
+        transform: scale(1.4);
+        -webkit-transform: scale(1.4);
+    }
+}
+
+// rotate-on-hover
+.rotate-on-hover {
+    transition: all .3s !important;
+    &:is(:hover,:active) {
+        transform: rotate(360deg);
+        -webkit-transform: scale(360deg);
+    }
+}

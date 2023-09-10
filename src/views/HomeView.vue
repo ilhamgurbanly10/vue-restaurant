@@ -1,11 +1,11 @@
 <script setup lang="ts">
 
-import Loader from '@/components/loaders/Loader.vue';
+import IsLoading from '@/components/loaders/IsLoading.vue';
 
 import { defineAsyncComponent, onMounted } from 'vue';
 
-const Hero = defineAsyncComponent(() =>
-  import('@/components/sections/Hero.vue')
+const HeroSection = defineAsyncComponent(() =>
+  import('@/components/sections/HeroSection.vue')
 );
 
 const OurStory = defineAsyncComponent(() =>
@@ -16,12 +16,12 @@ const ViewOurMenu = defineAsyncComponent(() =>
   import('@/components/sections/ViewOurMenu.vue')
 );
 
-const Comments = defineAsyncComponent(() =>
-  import('@/components/sections/Comments.vue')
+const CommentsSection = defineAsyncComponent(() =>
+  import('@/components/sections/CommentsSection.vue')
 );
 
-const Selections = defineAsyncComponent(() =>
-  import('@/components/sections/Selections.vue')
+const SelectionsSection = defineAsyncComponent(() =>
+  import('@/components/sections/SelectionsSection.vue')
 );
 
 const SpecialRecipes = defineAsyncComponent(() =>
@@ -35,11 +35,11 @@ const SpecialRecipes = defineAsyncComponent(() =>
   <Suspense>
 
     <template #default>
-      <Hero />
+      <HeroSection />
     </template>
 
     <template #fallback>
-      <Loader />
+      <IsLoading />
     </template>
 
   </Suspense>
@@ -51,7 +51,7 @@ const SpecialRecipes = defineAsyncComponent(() =>
     </template>
 
     <template #fallback>
-      <Loader />
+      <IsLoading />
     </template>
 
   </Suspense>
@@ -63,7 +63,7 @@ const SpecialRecipes = defineAsyncComponent(() =>
     </template>
 
     <template #fallback>
-      <Loader />
+      <IsLoading />
     </template>
 
   </Suspense>
@@ -71,11 +71,11 @@ const SpecialRecipes = defineAsyncComponent(() =>
   <Suspense>
 
     <template #default>
-      <Comments />
+      <CommentsSection />
     </template>
 
     <template #fallback>
-      <Loader />
+      <IsLoading />
     </template>
 
   </Suspense>
@@ -83,11 +83,11 @@ const SpecialRecipes = defineAsyncComponent(() =>
   <Suspense>
 
     <template #default>
-      <Selections />
+      <SelectionsSection />
     </template>
 
     <template #fallback>
-      <Loader />
+      <IsLoading />
     </template>
 
   </Suspense>
@@ -99,7 +99,7 @@ const SpecialRecipes = defineAsyncComponent(() =>
     </template>
 
     <template #fallback>
-      <Loader />
+      <IsLoading />
     </template>
 
   </Suspense>

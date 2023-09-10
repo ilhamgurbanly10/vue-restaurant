@@ -15,10 +15,8 @@
 
 <script setup lang="ts">
 
-    import SwiperClass, { Pagination } from 'Swiper'
-    import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+    import { Swiper } from 'vue-awesome-swiper'
 
-    // import swiper module styles
     import 'swiper/css'
     import 'swiper/css/pagination'
 

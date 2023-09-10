@@ -7,6 +7,7 @@
     "jsx": "preserve",
     "esModuleInterop": true,
     "moduleResolution": "node",
+    "types": ["swiper"],
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },

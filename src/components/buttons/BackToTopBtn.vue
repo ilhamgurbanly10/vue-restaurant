@@ -3,22 +3,22 @@
     import { ref, onMounted, onUnmounted } from 'vue';
 
     const active = ref<boolean>(false);
-    const btn = ref<JSX.Element | null>(null)
+    const btn = ref<HTMLButtonElement | null>(null)
     
     const toggle = () => document.documentElement.scrollTop > 100 ? active.value = true : active.value = false;
     const hide = (): void => { active.value = false; }
     const toTop = (): void => { document.documentElement.scrollTop = 0; }
 
     onMounted(() => {
-        btn?.value?.addEventListener('click', hide);
-        btn?.value?.addEventListener('click', toTop);
+        btn.value?.addEventListener('click', hide);
+        btn.value?.addEventListener('click', toTop);
         window.addEventListener('scroll', toggle);
         toggle();
     })
 
     onUnmounted(() => {
-        btn?.value?.removeEventListener('click', hide);
-        btn?.value?.removeEventListener('click', toTop);
+        btn.value?.removeEventListener('click', hide);
+        btn.value?.removeEventListener('click', toTop);
         window.removeEventListener('scroll', toggle);
     })
 
