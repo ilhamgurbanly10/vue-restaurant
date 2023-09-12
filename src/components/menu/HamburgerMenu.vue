@@ -57,7 +57,7 @@
 
             <router-link to="/">
                 <button type="button" @click="show = false" class="opacity-on-hover font-5 px-0 py-3 w-full text-start" :class="$style.link">
-                    <span>ANA SƏHİFƏ</span> span
+                    <span>ANA SƏHİFƏ</span>
                 </button>
             </router-link>
             

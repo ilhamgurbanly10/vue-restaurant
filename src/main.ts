@@ -4,10 +4,12 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import { createI18n } from 'vue-i18n';
+//@ts-ignore
 import messages from './i18n'; 
 import store from '@/store/store';
 import Antd from 'ant-design-vue';
-import SwiperClass, { Swiper, Pagination, Autoplay } from 'Swiper'
+//@ts-ignore
+import SwiperClass, { Pagination, Autoplay } from 'Swiper'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/css'
 

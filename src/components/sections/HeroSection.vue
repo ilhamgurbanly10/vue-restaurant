@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
     import { ref, onMounted, computed } from 'vue';
+    //@ts-ignore
     import { useStore } from 'vuex';
     import HeroSlider from '@/components/sliders/HeroSlider.vue';
     import IsLoading from '@/components/loaders/IsLoading.vue';

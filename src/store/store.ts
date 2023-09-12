@@ -1,3 +1,4 @@
+//@ts-ignore
 import { createStore } from 'vuex';
 import commonModule from '@/store/modules/common';
 

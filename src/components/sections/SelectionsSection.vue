@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
     import { ref, onMounted, computed, watch } from 'vue';
+    //@ts-ignore
     import { useStore } from 'vuex';
     import IsLoading from '@/components/loaders/IsLoading.vue';
     import ErrorOcurred from '@/components/errors/ErrorOcurred.vue';

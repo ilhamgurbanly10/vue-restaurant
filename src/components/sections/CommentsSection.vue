@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
     import { ref, onMounted, computed } from 'vue';
+    //@ts-ignore
     import { useStore } from 'vuex';
     import IsLoading from '@/components/loaders/IsLoading.vue';
     import ErrorOcurred from '@/components/errors/ErrorOcurred.vue';
@@ -12,6 +13,7 @@
     // vuex
     const store = useStore();
 
+   
     const loading = ref<boolean>(false);
 
     const data = computed<CommentsObj>(() => {
